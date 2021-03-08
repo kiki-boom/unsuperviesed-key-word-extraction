@@ -1,5 +1,5 @@
 # Unsupervised Aspect Extraction
-Codes with tensorflow2.4 for ACL2017 paper ‘‘An unsupervised neural attention model for aspect extraction’’. [(pdf)](http://aclweb.org/anthology/P/P17/P17-1036.pdf)
+Implementation based on tensorflow2.4 for ACL2017 paper ‘‘An unsupervised neural attention model for aspect extraction’’. [(pdf)](http://aclweb.org/anthology/P/P17/P17-1036.pdf)
 
 ## Data
 You can find the pre-processed datasets and the pre-trained word embeddings in [[Download]]. The zip file should be decompressed and put in the main folder.
