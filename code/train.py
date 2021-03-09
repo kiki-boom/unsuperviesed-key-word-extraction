@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import reader as dataset
+import reader as data_reader
 from model import create_model, load_model_weights
 from aspect_extractor_callback import AspectExtractorCallBack
 import argparse
@@ -29,13 +29,10 @@ parser.add_argument("--neg_num", type=int, default=20,
                     help="Number of negative instances (default=20)")
 parser.add_argument("--max_seq_len", type=int, default=128,
                     help="Maximum allowed number of words during training. '0' means no limit (default=0)")
-parser.add_argument("--algorithm", type=str, default='adam',
-                    help="Optimization algorithm (rmsprop|sgd|adagrad|adadelta|adam|adamax) (default=adam)")
 parser.add_argument("--domain", type=str, default='restaurant',
-                    help="domain of the corpus {restaurant, beer}")
+                    help="domain of the corpus {restaurant, beer, ...}")
 
 args = parser.parse_args()
-assert args.domain in {'restaurant', 'beer'}
 
 args.in_dir = args.in_dir + "/" + args.domain
 args.out_dir = args.out_dir + "/" + args.domain
@@ -63,9 +60,9 @@ def format_data(pos, neg, label):
 
 
 def get_tf_dataset(file_path, vocab):
-    train_x, _ = dataset.read_dataset(file_path,
-                                      vocab,
-                                      args.max_seq_len)
+    train_x, _ = data_reader.read_dataset(file_path,
+                                          vocab,
+                                          args.max_seq_len)
     train_x = tf.keras.preprocessing.sequence.pad_sequences(
         train_x,
         maxlen=args.max_seq_len,
@@ -86,7 +83,7 @@ def get_tf_dataset(file_path, vocab):
 
 
 def main():
-    vocab = dataset.create_vocab(args.in_dir + "/train.txt")
+    vocab = data_reader.create_vocab(args.in_dir + "/train.txt")
     vocab_inv = {i: w for w, i in vocab.items()}
     args.vocab_size = len(vocab)
     logger.info('Length of vocab: %d' % len(vocab))

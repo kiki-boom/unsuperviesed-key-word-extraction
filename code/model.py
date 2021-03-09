@@ -1,6 +1,5 @@
 import tensorflow as tf
 from my_layers import Average, AttentionEncoder, Decoder, MaxMargin
-from optimizers import get_optimizer
 from w2v_emb_reader import W2VEmbReader
 import logging
 
@@ -70,7 +69,6 @@ def create_model(args):
         hidden_size=args.hidden_size,
     )
     model.compile(
-        #optimizer=get_optimizer(args),
         optimizer=tf.optimizers.Adam(learning_rate=5e-5),
         loss=max_margin_loss,
         metrics=[max_margin_loss],
