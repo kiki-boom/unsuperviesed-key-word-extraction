@@ -64,7 +64,7 @@ class BertEmbReader:
 if __name__ == "__main__":
     import sys
     reader = BertEmbReader(sys.argv[1], sys.argv[2])
-    emb1 = reader.get_embedding("我")
+    emb1 = np.array(reader.get_embedding("我")).reshape((1, -1))
     distances = tf.matmul(emb1, reader.emb_matrix, transpose_b=True)
     near_ids = tf.math.top_k(distances, 100).indices[0, :]
     for i in near_ids:
